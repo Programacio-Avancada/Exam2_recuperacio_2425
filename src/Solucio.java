@@ -42,7 +42,8 @@ public class Solucio {
         quinVolumActual = 0;
         quinPesActual = 0;
         quantsEssencialActual = 0;
-        quantsFamiliaActual = new int[3];
+        int numFamilies = Article.Categoria.values().length;
+        quantsFamiliaActual = new int[numFamilies];
         // comptadors de famílies
         for (int i = 0; i < quantsFamiliaActual.length; i++)
             quantsFamiliaActual[i] = 0;
@@ -115,10 +116,9 @@ public class Solucio {
                     } // fi millor
                 } //else (és solució si com a mínim hi ha 2 essencials, però es poden posar més)
                 if (k < articles.length-1 &&
-                        quinVolumActual<volumMotxilla &&
-                        quinPesActual<pesMotxilla &&
-                        (quantsFamiliaActual[0]<maxQuantsFamilia ||quantsFamiliaActual[2]<maxQuantsFamilia ||
-                                quantsFamiliaActual[1]<maxQuantsFamilia)) {
+                        quinVolumActual < volumMotxilla &&
+                        quinPesActual < pesMotxilla &&
+                        k < quantsFamiliaActual.length * maxQuantsFamilia) {
                     // queden articles per seleccionar, hi ha lloc (pes i volum)
                     // i no hem arribat el màxim de totes les famílies
                     backMillor(k + 1);
@@ -151,8 +151,9 @@ public class Solucio {
                 return false;
         }
         // NO sobrepassi el màxim de cada família
-        // Aquí podeu fer un switch
-        if( quantsFamiliaActual[articles[quin].getFamilia().ordinal()] == maxQuantsFamilia)
+        // Aquí una alternativa és fer un switch -> veure solució de la Lina
+        int idFamilia = articles[quin].getFamilia().ordinal();
+        if( quantsFamiliaActual[idFamilia] == maxQuantsFamilia)
             return false;
 
         return quinVolumActual + articles[quin].getVolum() < volumMotxilla
@@ -168,7 +169,8 @@ public class Solucio {
         sumaUtilitatsActual += article.getUtilitat();
         quinVolumActual += article.getVolum();
         quinPesActual += article.getPes();
-        quantsFamiliaActual[article.getFamilia().ordinal()] ++; // Aquí podeu fer un switch
+        int idFamilia = article.getFamilia().ordinal(); // Aquí podeu fer un switch
+        quantsFamiliaActual[idFamilia] ++;
     }
     private void desanotar(int quin, int k){
         marcats[quin] = false;
@@ -179,7 +181,8 @@ public class Solucio {
         sumaUtilitatsActual -= article.getUtilitat();
         quinVolumActual -= article.getVolum();
         quinPesActual -= article.getPes();
-        quantsFamiliaActual[article.getFamilia().ordinal()] --; // Aquí podeu fer un switch
+        int idFamilia = article.getFamilia().ordinal(); // Aquí podeu fer un switch
+        quantsFamiliaActual[idFamilia] --;
     }
 
     public String toString(){
@@ -192,14 +195,13 @@ public class Solucio {
         sb.append("\tVolum ocupat: " + quinVolumMillor + "\n");
         sb.append("\tUtilitat total: " + sumaUtilitatsMillor + "\n");
         sb.append("\tArticles seleccionats:\n");
-        for( int i = 0; i < millor.length; i++){
-            if( millor[i] != -1){
-                Article a = articles[millor[i]];
-                sb.append("\t\tID: " + a.getIdentificador() + " Pes: " + a.getPes() + " Volum: " + a.getVolum() +
-                        " Utilitat: " + a.getUtilitat() + " Essencial: " + a.isEssencial() +
-                        " Família: " + a.getFamilia() + "\n");
-            }
+        for( int i = 0; i < millor.length && millor[i] != -1; i++){
+            Article a = articles[millor[i]];
+            sb.append("\t\tID: " + a.getIdentificador() + " Pes: " + a.getPes() + " Volum: " + a.getVolum() +
+                    " Utilitat: " + a.getUtilitat() + " Essencial: " + a.isEssencial() +
+                    " Família: " + a.getFamilia() + "\n");
         }
         return sb.toString();
     }
 }
+

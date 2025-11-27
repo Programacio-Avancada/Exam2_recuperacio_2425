@@ -191,6 +191,10 @@ public class Solucio {
         sb.append("\tVolum màxim: " + volumMotxilla + "\n");
         sb.append("\tPes màxim: " + pesMotxilla + "\n");
         sb.append("\tMàxim d'articles per família: " + maxQuantsFamilia + "\n\n");
+        if( quinVolumMillor <= 0 ){
+            sb.append("No d'ha trobat cap solució");
+            return sb.toString();
+        }
         sb.append("Millor solució trobada:\n");
         sb.append("\tVolum ocupat: " + quinVolumMillor + "\n");
         sb.append("\tUtilitat total: " + sumaUtilitatsMillor + "\n");
@@ -204,4 +208,5 @@ public class Solucio {
         return sb.toString();
     }
 }
+
 

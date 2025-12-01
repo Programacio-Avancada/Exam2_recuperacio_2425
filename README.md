@@ -31,7 +31,7 @@ Una decisió (agafar un article) és acceptable si:
 ### 🔹 Solució
 Serà solució quan hi hagi un mínim de dos essencials.
 
-### 🔹 Completable = poda
+### 🔹 Completable i poda
 Un conjunt de decisions parcial és completable mentre:
 - hi hagi pes i volum per seguir afegint articles, 
 - encara quedin articles per provar, i 
@@ -50,5 +50,5 @@ pot decidir afegir un article diferent.
 És necessari el marcatge, ja que un article no es pot repetir.
 
 ### 🔹 Esquema a aplicar
-Totes les solucions.
+Busquem la millor solució, maximitzar volum, i en cas d'igual maximitzar utilitat.
 
